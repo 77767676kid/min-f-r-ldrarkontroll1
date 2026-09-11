@@ -4,9 +4,188 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Min föräldrakontroll</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f4f7;
+      margin: 0;
+      padding: 30px;
+    }
+
+    .container {
+      max-width: 600px;
+      margin: auto;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    .card {
+      background: white;
+      padding: 20px;
+      margin: 15px 0;
+      border-radius: 15px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    input, button {
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      cursor: pointer;
+      background: #222;
+      color: white;
+    }
+
+    .status {
+      font-weight: bold;
+    }
+
+    #panel {
+      display: none;
+    }
+  </style>
 </head>
+
 <body>
-  <h1>Min föräldrakontroll</h1>
-  <p>Appen fungerar!</p>
+
+<div class="container">
+
+  <h1>🔐 Min föräldrakontroll</h1>
+
+  <div class="card">
+    <h2>Föräldrakod</h2>
+
+    <input
+      type="password"
+      id="code"
+      placeholder="Skriv koden"
+    >
+
+    <button onclick="login()">Logga in</button>
+
+    <p id="message"></p>
+  </div>
+
+  <div id="panel">
+
+    <div class="card">
+      <h2>⏱️ Skärmtid</h2>
+
+      <input
+        type="number"
+        id="minutes"
+        placeholder="Minuter"
+      >
+
+      <button onclick="setTime()">Spara tid</button>
+
+      <p>Inställd tid:
+        <span class="status" id="timeText">0 minuter</span>
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>🔒 Funktioner</h2>
+
+      <p>
+        Internet:
+        <span id="internetStatus">Tillåtet</span>
+      </p>
+
+      <button onclick="toggleInternet()">
+        Ändra internet
+      </button>
+    </div>
+
+    <div class="card">
+      <h2>📊 Användning</h2>
+
+      <p>
+        Användning idag:
+        <span id="usage">0 minuter</span>
+      </p>
+
+      <button onclick="addUsage()">
+        Lägg till 5 minuter
+      </button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+
+  // Demo-kod för den här egna sidan
+  const parentCode = "1234";
+
+  let internetAllowed = true;
+  let usage = 0;
+
+  function login() {
+
+    const code = document.getElementById("code").value;
+    const message = document.getElementById("message");
+
+    if (code === parentCode) {
+
+      document.getElementById("panel").style.display = "block";
+
+      message.textContent = "✅ Inloggad!";
+
+    } else {
+
+      message.textContent = "❌ Fel kod.";
+
+    }
+  }
+
+  function setTime() {
+
+    const minutes = document.getElementById("minutes").value;
+
+    if (minutes === "" || minutes < 0) {
+      alert("Skriv ett giltigt antal minuter.");
+      return;
+    }
+
+    document.getElementById("timeText").textContent =
+      minutes + " minuter";
+  }
+
+  function toggleInternet() {
+
+    internetAllowed = !internetAllowed;
+
+    if (internetAllowed) {
+
+      document.getElementById("internetStatus").textContent =
+        "Tillåtet";
+
+    } else {
+
+      document.getElementById("internetStatus").textContent =
+        "Blockerat";
+    }
+  }
+
+  function addUsage() {
+
+    usage += 5;
+
+    document.getElementById("usage").textContent =
+      usage + " minuter";
+  }
+
+</script>
+
 </body>
 </html>
